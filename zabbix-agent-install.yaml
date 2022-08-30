@@ -1,0 +1,26 @@
+---
+
+name: Installing Zabbix Repository
+hosts: all
+tasks:
+  - name: 'Installing Repository and Package'
+    yum:
+      name: <repo.url>
+      state: present
+      validate_certs: false
+  - name: Installing zabbix agent
+    yum: 
+      name: zabbix-agent
+      state: present
+  - name: Copy Zabbix agent configuration for Linux
+    copy:
+      src: /etc/ansible/zabbix_agentd/conf
+      dest: /etc/zabbix/zabbix_agentd.conf
+  - name: Start the Zabbix agent
+    service:
+      name: zabbix-agent
+      enabled: yes
+      state: started
+
+      
+
